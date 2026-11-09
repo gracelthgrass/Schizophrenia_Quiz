@@ -88,7 +88,7 @@ var QUESTIONS=[
   o:["A condition that only affects a person’s memory.","A condition caused by only stressful life events.","A condition that affects one’s thoughts, perceptions, emotions and behaviors.","A condition that causes someone to have multiple personalities."],
   a:[2],e:"Schizophrenia affects how a person thinks, perceives, feels and behaves."},
  {t:"Which of the following factors contribute to schizophrenia?",type:"multi",
-  o:["Biological factors","Environmental factors","Genetics","Substance use"],
+  o:["Other biological factors such as complications during pregnancy and childbirth.","Environmental factors","Genetics","Substance use"],
   a:[0,1,2,3],e:"All four can contribute. Schizophrenia has no single cause."},
  {t:"What are some positive symptoms of schizophrenia?",type:"multi",
   o:["Reduced interest in activities","Hallucinations","Delusions","Poor concentration"],
