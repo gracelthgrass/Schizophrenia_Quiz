@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Let’s talk about Schizophrenia</title>
+<style>
+:root{--bg:#eef4f6;--card:#fff;--ink:#2f4350;--muted:#6b8190;--accent:#7fb5b0;--accent-d:#4f8f89;--lav:#e6e3f4;--line:#d5e2e6;--good:#dff1e6;--good-b:#7cbf94;--bad:#fbe6e3;--bad-b:#e29a91;--sel:#e1f0ee;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17222a;--card:#202e38;--ink:#e3edf1;--muted:#9bb0bc;--accent:#6aa9a3;--accent-d:#8fcfc8;--lav:#2d2c45;--line:#31434f;--good:#1f3a2b;--good-b:#4f9a6c;--bad:#40262a;--bad-b:#b86f67;--sel:#24423f}}
+:root[data-theme="dark"]{--bg:#17222a;--card:#202e38;--ink:#e3edf1;--muted:#9bb0bc;--accent:#6aa9a3;--accent-d:#8fcfc8;--lav:#2d2c45;--line:#31434f;--good:#1f3a2b;--good-b:#4f9a6c;--bad:#40262a;--bad-b:#b86f67;--sel:#24423f}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Nunito","Segoe UI",system-ui,sans-serif;line-height:1.5;min-height:100vh;background-image:radial-gradient(circle at 10% 0%,var(--lav),transparent 45%),radial-gradient(circle at 100% 100%,var(--sel),transparent 40%)}
+main{max-width:640px;margin:0 auto;padding:28px 18px 48px}
+h1{font-family:Georgia,"Times New Roman",serif;font-weight:600;font-size:clamp(1.7rem,6vw,2.3rem);margin:0 0 6px;line-height:1.2}
+.sub{color:var(--muted);margin:0 0 22px}
+.card{background:var(--card);border-radius:22px;padding:24px 20px;box-shadow:0 8px 28px rgba(60,90,110,.1);border:1px solid var(--line)}
+.leaf{font-size:2rem;margin-bottom:6px}
+.btn{appearance:none;border:0;background:var(--accent-d);color:#fff;font:inherit;font-weight:700;padding:13px 26px;border-radius:999px;cursor:pointer;transition:transform .15s,opacity .15s}
+:root[data-theme="dark"] .btn{color:#10201f}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn{color:#10201f}}
+.btn:hover{transform:translateY(-1px)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn.ghost{background:transparent;color:var(--accent-d);border:2px solid var(--accent)}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:6px}
+.bar>div{height:100%;background:var(--accent);border-radius:99px;transition:width .4s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;margin-bottom:16px}
+.q{font-size:1.15rem;font-weight:700;margin:0 0 6px}
+.hint{display:inline-block;font-size:.8rem;background:var(--lav);color:var(--muted);padding:2px 10px;border-radius:99px;margin-bottom:14px}
+.opts{display:grid;gap:10px;margin:8px 0 18px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;width:100%;font:inherit;color:var(--ink);background:var(--card);border:2px solid var(--line);border-radius:14px;padding:13px 14px;cursor:pointer;transition:border-color .15s,background .15s}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .mark{flex:none;width:22px;height:22px;border:2px solid var(--muted);display:grid;place-items:center;font-size:.8rem;font-weight:800}
+.opt.radio .mark{border-radius:50%}
+.opt.check .mark{border-radius:6px}
+.opt.on{background:var(--sel);border-color:var(--accent-d)}
+.opt.on .mark{background:var(--accent-d);border-color:var(--accent-d);color:#fff}
+.opt.right{background:var(--good);border-color:var(--good-b)}
+.opt.wrong{background:var(--bad);border-color:var(--bad-b)}
+.opt:disabled{cursor:default}
+.fb{border-radius:14px;padding:12px 14px;margin-bottom:16px;font-size:.95rem}
+.fb.ok{background:var(--good)}.fb.no{background:var(--bad)}
+.fb b{display:block;margin-bottom:2px}
+.score{font-family:Georgia,serif;font-size:3.4rem;margin:4px 0}
+.center{text-align:center}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+.note{font-size:.82rem;color:var(--muted);margin-top:22px;text-align:center}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<h1>Let’s talk about Schizophrenia</h1>
+<p class="sub">A short, friendly quiz to see what you’ve learned from our pamphlet.</p>
+
+<section id="start" class="card center">
+  <div class="leaf">🌿</div>
+  <p>5 short questions. There’s no pressure, it’s all about learning together.</p>
+  <button class="btn" id="startBtn">Start quiz</button>
+</section>
+
+<section id="quiz" class="card" hidden>
+  <div class="bar"><div id="prog"></div></div>
+  <div class="meta"><span id="count"></span><span id="scoreNow"></span></div>
+  <p class="q" id="qtext"></p>
+  <span class="hint" id="qhint"></span>
+  <div class="opts" id="opts"></div>
+  <div class="fb" id="fb" hidden></div>
+  <div class="center"><button class="btn" id="action">Check answer</button></div>
+</section>
+
+<section id="result" class="card center" hidden>
+  <div class="leaf">🌸</div>
+  <div class="score" id="final"></div>
+  <p id="msg"></p>
+  <div class="row">
+    <button class="btn" id="retry">Try again</button>
+  </div>
+</section>
+
+<p class="note">This quiz is for education only and is not a diagnosis. If you or someone you know is struggling, please speak to a doctor or mental health professional.</p>
+</main>
+
+<script>
+var QUESTIONS=[
+ {t:"Which statement best describes schizophrenia?",type:"single",
+  o:["A condition that only affects a person’s memory.","A condition caused by only stressful life events.","A condition that affects one’s thoughts, perceptions, emotions and behaviors.","A condition that causes someone to have multiple personalities."],
+  a:[2],e:"Schizophrenia affects how a person thinks, perceives, feels and behaves."},
+ {t:"Which of the following factors contribute to schizophrenia?",type:"multi",
+  o:["Biological factors","Environmental factors","Genetics","Substance use"],
+  a:[0,1,2,3],e:"All four can contribute. Schizophrenia has no single cause."},
+ {t:"What are some positive symptoms of schizophrenia?",type:"multi",
+  o:["Reduced interest in activities","Hallucinations","Delusions","Poor concentration"],
+  a:[1,2],e:"Positive symptoms are things added to experience, like hallucinations and delusions. Reduced interest and poor concentration are other types of symptoms."},
+ {t:"Schizophrenia means that a person has multiple personalities.",type:"single",
+  o:["True","False"],a:[1],e:"This is a common myth. Schizophrenia is not the same as having multiple personalities."},
+ {t:"People with schizophrenia can live meaningful lives with appropriate treatment and support.",type:"single",
+  o:["True","False"],a:[0],e:"With the right support, people with schizophrenia can live meaningful and fulfilling lives."}
+];
+var $=function(i){return document.getElementById(i)};
+var cur=0,score=0,sel=[],checked=false;
+
+function show(id){["start","quiz","result"].forEach(function(s){$(s).hidden=s!==id})}
+function render(){
+  var q=QUESTIONS[cur];sel=[];checked=false;
+  $("count").textContent="Question "+(cur+1)+" of "+QUESTIONS.length;
+  $("scoreNow").textContent="Score: "+score;
+  $("prog").style.width=(cur/QUESTIONS.length*100)+"%";
+  $("qtext").textContent=q.t;
+  $("qhint").textContent=q.type==="multi"?"Select all that apply":"Select one answer";
+  $("fb").hidden=true;
+  var box=$("opts");box.innerHTML="";
+  q.o.forEach(function(txt,i){
+    var b=document.createElement("button");
+    b.type="button";b.className="opt "+(q.type==="multi"?"check":"radio");
+    b.innerHTML='<span class="mark"></span><span></span>';
+    b.lastChild.textContent=txt;
+    b.onclick=function(){toggle(i)};
+    box.appendChild(b);
+  });
+  $("action").textContent="Check answer";$("action").disabled=true;
+}
+function toggle(i){
+  if(checked)return;
+  var q=QUESTIONS[cur],btns=$("opts").children;
+  if(q.type==="single"){sel=[i]}
+  else{var k=sel.indexOf(i);if(k>-1)sel.splice(k,1);else sel.push(i)}
+  for(var j=0;j<btns.length;j++){
+    var on=sel.indexOf(j)>-1;
+    btns[j].classList.toggle("on",on);
+    btns[j].firstChild.textContent=on&&q.type==="multi"?"✓":"";
+  }
+  $("action").disabled=sel.length===0;
+}
+function check(){
+  var q=QUESTIONS[cur],btns=$("opts").children;checked=true;
+  var ok=sel.length===q.a.length&&q.a.every(function(x){return sel.indexOf(x)>-1});
+  if(ok)score++;
+  for(var j=0;j<btns.length;j++){
+    btns[j].disabled=true;
+    var isA=q.a.indexOf(j)>-1,isS=sel.indexOf(j)>-1;
+    if(isA)btns[j].classList.add("right");
+    else if(isS)btns[j].classList.add("wrong");
+  }
+  var fb=$("fb");fb.hidden=false;fb.className="fb "+(ok?"ok":"no");
+  fb.innerHTML="<b></b><span></span>";
+  fb.firstChild.textContent=ok?"That’s right! 🌟":"Not quite, and that’s okay.";
+  fb.lastChild.textContent=q.e;
+  $("scoreNow").textContent="Score: "+score;
+  $("action").textContent=cur===QUESTIONS.length-1?"See my score":"Next question";
+}
+function next(){
+  if(cur===QUESTIONS.length-1){finish()}else{cur++;render()}
+}
+function finish(){
+  var n=QUESTIONS.length;
+  $("final").textContent=score+" / "+n;
+  var m=score===n?"Wonderful! You know your stuff. Sharing what you’ve learned helps reduce stigma."
+    :score>=3?"Great effort! You’ve picked up a lot. Have another look at the pamphlet and try again."
+    :"Thanks for taking part! Learning is a journey. Revisit the pamphlet and give it another go.";
+  $("msg").textContent=m;
+  show("result");
+}
+$("startBtn").onclick=function(){cur=0;score=0;show("quiz");render()};
+$("action").onclick=function(){checked?next():check()};
+$("retry").onclick=function(){cur=0;score=0;show("quiz");render()};
+</script>
+</body>
+</html>
